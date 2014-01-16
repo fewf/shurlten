@@ -10,7 +10,7 @@ app.get('/', function(req, res) {
   res.send('Hello World boo!');
 });
 
-app.get(/^\/([A-Za-Z0-9]+)$/, function(req, res) {
+app.get(/^\/([A-Za-z0-9]+)$/, function(req, res) {
 	fs.open('shorten_dict.js', 'r', function(err, fd) {
 		fs.fstat(fd, function(err, stat) {
 			var bufferSize = stats.size;
