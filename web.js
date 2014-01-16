@@ -6,8 +6,8 @@ var app = express();
 
 app.use(logfmt.requestLogger());
 
-app.get('/a', function(req, res) {
-  res.send('Hello World!');
+app.get('/', function(req, res) {
+  res.send('Hello World boo!');
 });
 
 app.get(/^\/([A-Za-Z0-9]+)$/, function(req, res) {
