@@ -1,0 +1,20 @@
+{
+  "name": "url_shortener",
+  "version": "0.0.0",
+  "description": "URL shortener in node",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "url",
+    "shortener",
+    "bitly"
+  ],
+  "author": "greggreggreg7",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "logfmt": "~0.18.1",
+    "express": "~3.4.8"
+  }
+}
