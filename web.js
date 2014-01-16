@@ -1,8 +1,22 @@
 // web.js
 var express = require("express");
 var logfmt = require("logfmt");
-var fs = require("fs")
+var mongo = require('mongodb');
+
+
 var app = express();
+
+
+var mongoUri = process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||
+  'mongodb://localhost/mydb';
+
+mongo.Db.connect(mongoUri, function (err, db) {
+  db.collection('urls', function(er, collection) {
+    collection.insert({'a': 'http://www.google.com'}, {safe: true}, function(er,rs) {
+    });
+  });
+});
 
 app.use(logfmt.requestLogger());
 
