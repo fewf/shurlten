@@ -20,7 +20,7 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 	mongo.Db.connect(mongoUri, function (err, db) {
 		db.collection('urls', function(er, coll) {
 			console.log(req.params[0]);
-			var rec = coll.find({'short': req.params[0]});
+			var rec = coll.find({"short": req.params[0]});
 			if (rec.length) {
 				res.redirect(rec[0].url);
 			} else {
@@ -33,4 +33,4 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
   console.log("Listening on " + port);
-});
+});	
