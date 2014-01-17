@@ -18,15 +18,16 @@ app.get('/', function(req, res) {
 
 app.get(/^\/([\d\w]+)$/, function(req, res) {
 	mongo.Db.connect(mongoUri, function (err, db) {
-		db.collection('urls', function(er, coll) {
+		db.collection('urls', function(er, collection) {
 			console.log(req.params[0]);
+			console.log(collection);
 			var rec = coll.find({"short": req.params[0]});
 			if (rec.length) {
 				res.redirect(rec[0].url);
 			} else {
 				res.send('Sorry not found.');
 			}
-		})
+		});
 	});
 });
 
