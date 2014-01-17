@@ -16,11 +16,11 @@ app.get('/', function(req, res) {
   res.send('Hello World boo!');
 });
 
-app.get(/^\/([A-Za-z0-9]+)$/, function(req, res) {
+app.get(/^\/([\d\w]+)$/, function(req, res) {
 	mongo.Db.connect(mongoUri, function (err, db) {
 		db.collection('urls', function(er, coll) {
-			console.log(req.param[0]);
-			var rec = coll.find({'short': req.param[0]});
+			console.log(req.params[0]);
+			var rec = coll.find({'short': req.params[0]});
 			if (rec.length) {
 				res.redirect(rec[0].url);
 			} else {
@@ -28,9 +28,6 @@ app.get(/^\/([A-Za-z0-9]+)$/, function(req, res) {
 			}
 		})
 	});
-
-
-
 });
 
 var port = process.env.PORT || 5000;
