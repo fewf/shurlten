@@ -12,10 +12,11 @@ var mongoUri = process.env.MONGOLAB_URI ||
   'mongodb://localhost/mydb';
 
 mongo.Db.connect(mongoUri, function (err, db) {
-  db.collection('urls', function(er, collection) {
-    collection.insert({'a': 'http://www.google.com'}, {safe: true}, function(er,rs) {
-    });
-  });
+	db.collection('urls', function(er, collection) {
+		if (!collection.find({'a': 'http://www.google.com'}).length) {
+			collection.insert({'a': 'http://www.google.com'}, {safe: true}, function(er,rs) {
+		});
+	});
 });
 
 app.use(logfmt.requestLogger());
