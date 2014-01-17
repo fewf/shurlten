@@ -12,7 +12,7 @@ var mongoUri = process.env.MONGOLAB_URI ||
 app.use(logfmt.requestLogger());
 app.use(express.urlencoded());
 app.get('/', function(req, res) {
-  res.sendfile('main.html');
+  res.sendfile('./main.html');
 });
 
 app.get(/^\/([\d\w]+)$/, function(req, res) {
