@@ -10,9 +10,9 @@ var mongoUri = process.env.MONGOLAB_URI ||
   'mongodb://localhost/mydb';
 
 app.use(logfmt.requestLogger());
-app.use(express.bodyParser());
+app.use(express.urlencoded());
 app.get('/', function(req, res) {
-  res.send('<input type="text" />');
+  res.sendfile('main.html');
 });
 
 app.get(/^\/([\d\w]+)$/, function(req, res) {
@@ -29,7 +29,7 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 	});
 });
 
-app.post(/^\/addurl\/(.+)/, function(req, res) {
+app.get(/^\/addurl/, function(req, res) {
 	mongo.Db.connect(mongoUri, function (err, db) {
 		db.collection('urls', function(er, collection) {
 			collection.insert({"short": "g5", "url": req.params[0]});
