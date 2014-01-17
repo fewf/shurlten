@@ -7,7 +7,8 @@ var app = express();
 
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
-  'mongodb://localhost/mydb';
+  'mongodb://localhost:27017/';
+  // console.log(mongoUri);
 
 app.use(logfmt.requestLogger());
 app.use(express.urlencoded());
@@ -31,6 +32,7 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 
 app.get(/^\/addurl/, function(req, res) {
 	mongo.Db.connect(mongoUri, function (err, db) {
+		console.log(err);
 		db.collection('urls', function(er, collection) {
 			collection.insert({"short": "g5", "url": req.params[0]});
 		});
