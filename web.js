@@ -19,8 +19,6 @@ app.get('/', function(req, res) {
 app.get(/^\/([\d\w]+)$/, function(req, res) {
 	mongo.Db.connect(mongoUri, function (err, db) {
 		db.collection('urls', function(er, collection) {
-			console.log(req.params[0]);
-			console.log(collection);
 			collection.find({"short": req.params[0]}).toArray(function( err, docs) {
 				if (docs.length) {
 					res.redirect(docs[0].url);
