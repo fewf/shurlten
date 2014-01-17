@@ -23,7 +23,7 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 			console.log(collection);
 			collection.find({"short": req.params[0]}).toArray(function( err, docs) {
 				if (docs.length) {
-					res.redirect(rec[0].url);
+					res.redirect(docs[0].url);
 				} else {
 					res.send('Sorry not found.');
 				}
