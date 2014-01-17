@@ -13,7 +13,7 @@ var mongoUri = process.env.MONGOLAB_URI ||
 app.use(logfmt.requestLogger());
 
 app.get('/', function(req, res) {
-  res.send('Hello World boo!');
+  res.send('<input type="text" />');
 });
 
 app.get(/^\/([\d\w]+)$/, function(req, res) {
