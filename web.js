@@ -6,31 +6,9 @@ var mongo = require('mongodb');
 
 var app = express();
 
-
-
-
-
-
-
-
-
-
-
-
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://localhost/mydb';
-
-console.log(mongoUri);
-
-mongo.Db.connect(mongoUri, function (err, db) {
-	db.collection('urls', function(er, collection) {
-		collection.remove();
-		if (!collection.find({'short': 'a'}).length) {
-			collection.insert({'short': 'a', 'url': 'http://www.google.com'}, {safe: true});
-		}
-	});
-});
 
 app.use(logfmt.requestLogger());
 
