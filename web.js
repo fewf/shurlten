@@ -7,20 +7,6 @@ var mongo = require('mongodb');
 var app = express();
 
 
-var mongoUri = process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'mongodb://localhost/mydb';
-
-var mdb;
-mongo.Db.connect(mongoUri, function (err, db) {
-	mdb = db;
-	db.collection('urls', function(er, collection) {
-		collection.remove();
-		if (!collection.find({'short': 'a'}).length) {
-			collection.insert({'short': 'a', 'url': 'http://www.google.com'}, {safe: true}, function(er,rs) {
-		});
-	});
-});
 
 app.use(logfmt.requestLogger());
 
@@ -34,9 +20,8 @@ app.get(/^\/([A-Za-z0-9]+)$/, function(req, res) {
 		if (rec.length) {
 			res.redirect(rec[0].url);
 		} else {
-				res.send('Sorry not found.');
+			res.send('Sorry not found.');
 		}
-
 	})
 });
 
