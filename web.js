@@ -11,6 +11,8 @@ var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://localhost/mydb';
 
+console.log(mongoUri);
+
 mongo.Db.connect(mongoUri, function (err, db) {
 	db.collection('urls', function(er, collection) {
 		collection.remove();
