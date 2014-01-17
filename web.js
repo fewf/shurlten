@@ -21,7 +21,7 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 		db.collection('urls', function(er, collection) {
 			console.log(req.params[0]);
 			console.log(collection);
-			var rec = coll.find({"short": req.params[0]});
+			var rec = collection.find({"short": req.params[0]});
 			if (rec.length) {
 				res.redirect(rec[0].url);
 			} else {
