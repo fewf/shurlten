@@ -11,10 +11,13 @@ var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://localhost/mydb';
 
+var mdb;
 mongo.Db.connect(mongoUri, function (err, db) {
+	mdb = db;
 	db.collection('urls', function(er, collection) {
-		if (!collection.find({'a': 'http://www.google.com'}).length) {
-			collection.insert({'a': 'http://www.google.com'}, {safe: true}, function(er,rs) {
+		collection.remove();
+		if (!collection.find({'short': 'a'}).length) {
+			collection.insert({'short': 'a', 'url': 'http://www.google.com'}, {safe: true}, function(er,rs) {
 		});
 	});
 });
@@ -26,27 +29,14 @@ app.get('/', function(req, res) {
 });
 
 app.get(/^\/([A-Za-z0-9]+)$/, function(req, res) {
-	fs.open('shorten_dict.js', 'r', function(err, fd) {
-		fs.fstat(fd, function(err, stat) {
-			var bufferSize = stats.size;
-			var chunkSize = 512;
-			var buffer = new Buffer(bufferSize);
-			var bytesRead = 0;
-
-			while (bytesRead < bufferSize) {
-				if ((bytesRead + chunkSize) > bufferSize) {
-					chunkSize = (bufferSize - bytesRead);
-				}
-				fs.read(fd, buffer, bytesRead, chunkSize, bytesRead);
-				bytesRead += chunkSize;
-			}
-			var url_dict = JSON.parse(buffer.toString('utf8', 0, bufferSize));
-			if (url_dict[req.param[0]]) {
-				res.redirect(url_dict[req.param[0]]);
-			} else {
+	mdb.collection('urls', function(er, coll) {
+		var rec = coll.find({'short': req.param[0]});
+		if (rec.length) {
+			res.redirect(rec[0].url);
+		} else {
 				res.send('Sorry not found.');
-			}
-		});
+		}
+
 	})
 });
 
