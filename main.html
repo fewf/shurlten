@@ -14,6 +14,7 @@
 	</form>
 		<script type="text/javascript">
 (function(window, document) {
+
 var hasURLtype, submit, input, form;
 
 // find out if browser supports url input type
@@ -21,20 +22,20 @@ var i = document.createElement("input");
 i.setAttribute("type", "color");
 hasURLtype = i.type !== "text";
 
+if (!hasURLtype) {
+	form.addEventListener('submit', function(){
+		if (!ValidURL(input.value);
+		input.css('border-color', 'red pink');
+		return false;
+	});
+}
 
 form = document.getElementByTagName('form');
 submit = document.getElementById('btn');
 input = document.getElementById('url');
 
-
-form.addEventListener('submit', function(){
-	if (!hasURLtype) {
-		if (!ValidURL(input.value);
-		input.css('border-color', 'red pink');
-		return false;
-	}
-});
-
+// below found on github. fails for some cromulent URLs. only used
+// if  browser does not support input type url.
 function ValidURL(str) {
 	var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
 	'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name

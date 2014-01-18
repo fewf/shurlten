@@ -31,17 +31,25 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get('/addurl/', function(req, res) {
+
 	mongo.Db.connect(mongoUri, function (err, db) {
+
 		db.collection('ref_seq', function(er, collection) {
-			collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }}, {}, function(err, object) {
+
+			collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }},
+									 {}, function(err, object) {
+
 				db.collection('urls', function(er, collection) {
+
 					var url = req.query.url;
 					if (url.substr(0,4) !== "http") {
 						url = 'http://' + url;
 					}
-					collection.insert({"short": genID(object.seq), "url": url}, function() {
-						res.send('here\'s your link: <a href="http://quiet-scrubland-5884.herokuapp.com/'  + 
-								 genID(object.seq) + '" target="_blank">quiet-scrubland-5884.herokuapp.com/'  + genID(object.seq) + '')
+					var newLink = genID(object.seq);
+					collection.insert({"short": newLink, "url": url}, function() {
+
+						res.send(genResponse(newLink));
+						
 					});
 				});
 			});
@@ -54,6 +62,12 @@ app.listen(port, function() {
   console.log("Listening on " + port);
 });	
 
+function genResponse(link) {
+	return 'here\'s your link: <a href="http://quiet-scrubland-5884.herokuapp' +
+			'.com/'  + link + '" target="_blank">quiet-scrubland' +
+			'-5884.herokuapp.com/'  + link + '';
+}
+
 function genID(decimal, symbols) {
 	if (typeof symbols === 'undefined' || !symbols.length) {
 		var symbols = ['0','1','2','3','4','5','6','7','8',
@@ -62,7 +76,7 @@ function genID(decimal, symbols) {
 				   'r','s','t','w','x','y','z'];	
 	}
 	decimal = decimal * 25;
-	
+
 	function pow(power) {
 		return Math.pow(symbols.length, power);
 	}
