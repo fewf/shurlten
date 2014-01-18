@@ -31,24 +31,25 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get('/addurl/', function(req, res) {
-	var url = req.query.url;
+
 	mongo.Db.connect(mongoUri, function (err, db) {
 
 		db.collection('ref_seq', function(er, collection) {
 
 			collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }},
 									 {}, function(err, object) {
-				var newLink = genID(doc.seq);
-				db.collection('urls', insertNewShortened);
+
+				db.collection('urls', function(er, collection) {
+
+					var url = req.query.url;
+					var newLink = genID(object.seq);
+					collection.insert({"short": newLink, "url": url},
+									  sendToShortened);
+				});
 			});
 		});
 	});
 });
-
-function insertNewShortened(err, collection) {
-	collection = arguments[1];
-	collection.insert({"short": newLink, "url": url}, sendToShortened);
-}
 
 function sendToShortened() {
 	res.send(genResponse(newLink));
