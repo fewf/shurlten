@@ -16,15 +16,15 @@ app.get('/', function(req, res) {
   res.sendfile('./main.html');
 });
 
-// if (!global.db) {
-//     mongo.Db.connect(mongoUri, function (err, db) {
-//         if (!err) {
-//             global.db = db;
-//         } else {
-//             throw new Error(err);
-//         }
-//     });
-// }
+if (!global.db) {
+    mongo.Db.connect(mongoUri, function (err, db) {
+        if (!err) {
+            global.db = db;
+        } else {
+            throw new Error(err);
+        }
+    });
+}
 
 app.get(/^\/([\d\w]+)$/, function(req, res) {
     db.collection('urls', function(er, collection) {
