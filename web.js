@@ -16,8 +16,17 @@ app.get('/', function(req, res) {
   res.sendfile('./main.html');
 });
 
+mongo.Db.connect(mongoUri, function (err, db) {
+	if (!err) {
+		global.db = db;
+	} else {
+		throw new Error(err);
+	}
+});
+
+
 app.get(/^\/([\d\w]+)$/, function(req, res) {
-	mongo.Db.connect(mongoUri, function (err, db) {
+	// mongo.Db.connect(mongoUri, function (err, db) {
 		db.collection('urls', function(er, collection) {
 			collection.find({"short": req.params[0]}).toArray(function( err, docs) {
 				if (docs.length) {
@@ -27,38 +36,39 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 				}
 			});
 		});
-	});
+	// });
 });
 
 app.get('/addurl/', function(req, res) {
-	connectToDb(req, res, getSeqColl);
+	getSeqColl(req, res, getAndIncSeq);
 });
 
 function connectToDb(req, res, callback) {
-	mongo.Db.connect(mongoUri, function (err, db) {
-		if (!err) {
-			callback(req, res, db, getAndIncSeq)
-		} else {
-			throw new Error(err);
-		}
-	});
+
 }
 
-function getSeqColl(req, res, db, callback) {	
-	db.collection('ref_seq', function(err, collection) {
+function getSeqColl(req, res, callback) {	
+	global.db.collection('ref_seq', function(err, collection) {
 		if (!err) {
-			callback(req, res, db, collection, getURLsColl)
+			callback(req, res, collection, getURLsColl)
 		} else {
 			throw new Error(err);
 		}		
 
 	});
 }
-function getAndIncSeq(req, res, db, collection, callback) {
+
+function getURLsColl(req, res, collection, object, callback) {
+	global.db.collection('urls', function(err, collection) {
+		callback(req, res, collection, genID(object.seq), sendToShortened);
+	});
+}
+
+function getAndIncSeq(req, res, collection, callback) {
 		collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }},
 							 {}, function(err, object) {
 		if (!err) {
-			callback(req, res, db, collection, object, addNewShort);
+			callback(req, res, collection, object, addNewShort);
 		} else {
 			throw new Error(err);
 		}
@@ -66,11 +76,7 @@ function getAndIncSeq(req, res, db, collection, callback) {
 	});
 }
 
-function getURLsColl(req, res, db, collection, object, callback) {
-	db.collection('urls', function(err, collection) {
-		callback(req, res, collection, genID(object.seq), sendToShortened);
-	});
-}
+
 
 function addNewShort(req, res, collection, seq, callback) {
 		var url = req.query.url;
