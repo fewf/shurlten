@@ -68,12 +68,12 @@ function yetAnotherFn(req, res, db, collection) {
 
 function uhohOneMore(req, res, db, collection, object) {
 	db.collection('urls', function(err, collection) {
-		lastOnePromise(req, res, object.seq)
+		lastOnePromise(req, res, collection, object.seq)
 
 	});
 }
 
-function lastOnePromise(req, res, seq) {
+function lastOnePromise(req, res, collection, seq) {
 		var url = req.query.url;
 		collection.insert({"short": seq, "url": url}, function() {
 			sendToShortened(res, seq);
