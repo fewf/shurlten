@@ -36,10 +36,9 @@ app.get(/^\/addurl/, function(req, res) {
 			collection.findAndModify({
 										query: { _id: "seq"}, 
 										update: { $inc: { seq: 1 }}, 
-										fields: {"_id": 0}},
-			function(err, object) {
+										fields: {"_id": 0}}).toArray(function(err, docs) {
 				db.collection('urls', function(er, collection) {
-					collection.insert({"short": object.seq, "url": req.query.url}, function() {
+					collection.insert({"short": docs[0].seq, "url": req.query.url}, function() {
 						res.send('cha-ching!')
 					});
 				});
