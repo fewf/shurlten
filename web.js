@@ -36,7 +36,8 @@ app.get(/^\/addurl/, function(req, res) {
 			collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }}, {}, function(err, object) {
 				db.collection('urls', function(er, collection) {
 					collection.insert({"short": genID(object.seq), "url": req.query.url}, function() {
-						res.send('here\'s your link: http://quiet-scrubland-5884.herokuapp.com/'  + genID(object.seq) + '')
+						res.send('here\'s your link: <a href="http://quiet-scrubland-5884.herokuapp.com/'  + 
+								 genID(object.seq) + '" target="_blank">http://quiet-scrubland-5884.herokuapp.com/'  + genID(object.seq) + '')
 					});
 				});
 			});
