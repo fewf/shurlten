@@ -46,6 +46,7 @@ app.get('/addurl/', function(req, res) {
 });
 
 function insertNewShortened(err, collection) {
+	collection = arguments[1];
 	var url = req.query.url;
 	var newLink = genID(object.seq);
 	collection.insert({"short": newLink, "url": url}, sendToShortened);
