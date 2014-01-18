@@ -39,20 +39,21 @@ app.get('/addurl/', function(req, res) {
 			collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }},
 									 {}, function(err, object) {
 
-				db.collection('urls', function(er, collection) {
-
-					var url = req.query.url;
-					var newLink = genID(object.seq);
-					collection.insert({"short": newLink, "url": url}, function() {
-
-						res.send(genResponse(newLink));
-
-					});
-				});
+				db.collection('urls', insertNewShortened);
 			});
 		});
 	});
 });
+
+function insertNewShortened(err, collection) {
+	var url = req.query.url;
+	var newLink = genID(object.seq);
+	collection.insert({"short": newLink, "url": url}, sendToShortened);
+}
+
+function sendToShortened() {
+	res.send(genResponse(newLink));
+}
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
