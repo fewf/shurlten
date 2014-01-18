@@ -26,10 +26,13 @@ form = document.getElementById('shorten');
 submit = document.getElementById('btn');
 input = document.getElementById('url');
 
-form.addEventListener('submit', function(){
+submit.addEventListener('click', function() {
 	if (input.value.substr(0,4) !== "http") {
-		url = 'http://' + url;
+		input.value = 'http://' + input.value;
 	}
+});
+
+form.addEventListener('submit', function(){
 	if (!hasURLtype) {
 		if (!ValidURL(input.value));
 		input.css('border-color', 'red pink');
