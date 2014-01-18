@@ -8,7 +8,7 @@
 		</style>
 	</head>
 	<body>
-	<form method="get" action="/addurl/">
+	<form id="shorten" method="get" action="/addurl/">
 		<input id="url" name="url" type="url" size="50"/>
 		<input type="submit" id="btn" />
 	</form>
@@ -22,7 +22,7 @@ i.setAttribute("type", "color");
 hasURLtype = i.type !== "text";
 
 
-form = document.getElementByTagName('form');
+form = document.getElementById('shorten');
 submit = document.getElementById('btn');
 input = document.getElementById('url');
 
