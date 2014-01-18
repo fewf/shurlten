@@ -21,6 +21,10 @@ i.setAttribute("type", "color");
 hasURLtype = i.type !== "text";
 
 
+form = document.getElementByTagName('form');
+submit = document.getElementById('btn');
+input = document.getElementById('url');
+
 form.addEventListener('submit', function(){
 	if (input.value.substr(0,4) !== "http") {
 		url = 'http://' + url;
@@ -32,10 +36,6 @@ form.addEventListener('submit', function(){
 	}
 });
 
-
-form = document.getElementByTagName('form');
-submit = document.getElementById('btn');
-input = document.getElementById('url');
 
 // below found on github. fails for some cromulent URLs. only used
 // if  browser does not support input type url.
