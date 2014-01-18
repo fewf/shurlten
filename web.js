@@ -36,7 +36,7 @@ app.get(/^\/addurl/, function(req, res) {
 			collection.findAndModify({
 										query: { _id: "seq"}, 
 										update: { $inc: { seq: 1 }}, 
-										fields: {"_id": 0}}), 
+										fields: {"_id": 0}},
 			function(err, object) {
 				db.collection('urls', function(er, collection) {
 					collection.insert({"short": object.seq, "url": req.query.url}, function() {
@@ -46,7 +46,7 @@ app.get(/^\/addurl/, function(req, res) {
 			});
 		});
 	});
-})
+});
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
