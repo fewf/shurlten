@@ -41,7 +41,6 @@ app.get('/addurl/', function(req, res) {
 									 {}, function(err, object) {
 
 				db.collection('urls', function(er, collection) {
-					var res = res;
 					var url = req.query.url;
 					var newLink = genID(object.seq);
 					collection.insert({"short": newLink, "url": url}, sendToShortened);
@@ -52,7 +51,7 @@ app.get('/addurl/', function(req, res) {
 });
 
 function sendToShortened() {
-	res.send(genResponse(newLink));
+	gbl_res.send(genResponse(newLink));
 }
 
 var port = process.env.PORT || 5000;
