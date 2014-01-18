@@ -62,19 +62,21 @@ function genID(decimal, symbols) {
 				   'r','s','t','w','x','y','z'];	
 	}
 	decimal = decimal * 25;
+	
 	function pow(power) {
 		return Math.pow(symbols.length, power);
 	}
 
-	// var isEven = Boolean(decimal % 2);
 	var numstr = '';
 	var rem;
 	var i = 0;
 	while (true) {
+
 		if ( decimal/pow(i+1) < 1) {
 			break;
 		}
 		i++;
+
 	}
 
 	while ( i >= 0 ) {
@@ -84,6 +86,6 @@ function genID(decimal, symbols) {
 		decimal = decimal - pow(i) * Math.floor(decimal / pow(i));
 		i--;
 	}
-	// return num;
+
 	return numstr;
 }
