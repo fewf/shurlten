@@ -39,6 +39,11 @@
             #url, #btn {
                 height: 2em;
             }
+            #formDiv a {
+                text-decoration: none;
+                font-weight: bold;
+                color: gray;
+            }
 
         </style>
     </head>
@@ -47,12 +52,13 @@
         <div id="formDiv">
             <form id="shorten" method="get" action="/addurl/">
                 <input placeholder="Paste a URL to shorten it!" id="url" name="url" type="url" size="50" required pattern="https?://.+"/>
-                <input type="submit" id="btn" />
+                <input type="submit" id="btn" value="Shorten!" />
+                <br />
+                <a href="https://github.com/greggreggreg7/url_shortener" target="_blank">github</a>
             </form>
         </div>
     </div>
-    <br />
-    <a href="https://github.com/greggreggreg7/url_shortener" target="_blank">github</a>
+
         <script type="text/javascript">
 (function(){
 var hasURLtype, submit, input, form;
