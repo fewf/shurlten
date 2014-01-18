@@ -31,9 +31,9 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get(/^\/addurl/, function(req, res) {
-	console.log('req before connect callback: ' + req.params[0]);
+	console.log('req before connect callback: ' + JSON.stringify(req));
 	mongo.Db.connect(mongoUri, function (err, db) {
-		console.log('req in connect callback: ' + req.params[0]);
+		console.log('req in connect callback: ' + JSON.stringify(req));
 		db.collection('urls', function(er, collection) {
 			collection.insert({"short": "g5", "url": req.params[0]});
 		});
