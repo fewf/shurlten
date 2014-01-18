@@ -31,11 +31,11 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get(/^\/addurl/, function(req, res) {
-	console.log('req before connect callback: ' + JSON.stringify(req));
+	console.log('req in connect callback: ' + req.query.url);
 	mongo.Db.connect(mongoUri, function (err, db) {
-		console.log('req in connect callback: ' + JSON.stringify(req));
+		console.log('req in connect callback: ' + req.query.url);
 		db.collection('urls', function(er, collection) {
-			collection.insert({"short": "g5", "url": req.params[0]});
+			collection.insert({"short": "g5", "url": req.query.url});
 		});
 	});
 })
