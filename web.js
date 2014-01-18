@@ -39,59 +39,46 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get('/addurl/', function(req, res) {
-	getAndIncSeq(addNewShort);
+	getSeqColl(req, res, getAndIncSeq);
 });
 
-function getColl(coll, callback) {
-	var retColl;
-	global.db.collection(coll, function(err, collection) {
+
+function getSeqColl(req, res, callback) {	
+	global.db.collection('ref_seq', function(err, collection) {
 		if (!err) {
-			callback(collection);
+			callback(req, res, collection, getURLsColl)
 		} else {
 			throw new Error(err);
 		}		
+
 	});
 }
-// function getSeqColl(req, res, callback) {	
-// 	global.db.collection('ref_seq', function(err, collection) {
-// 		if (!err) {
-// 			callback(req, res, collection, getURLsColl)
-// 		} else {
-// 			throw new Error(err);
-// 		}		
 
-// 	});
-// }
+function getURLsColl(req, res, collection, object, callback) {
+	global.db.collection('urls', function(err, collection) {
+		callback(req, res, collection, genID(object.seq), sendToShortened);
+	});
+}
 
-// function getURLsColl(req, res, collection, object, callback) {
-// 	global.db.collection('urls', function(err, collection) {
-// 		callback(req, res, collection, genID(object.seq), sendToShortened);
-// 	});
-// }
-
-function getAndIncSeq(callback) {
-	getColl('ref_seq', function(collection) {
+function getAndIncSeq(req, res, collection, callback) {
 		collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }},
 							 {}, function(err, object) {
 		if (!err) {
-			callback(object.seq);
+			callback(req, res, collection, object, addNewShort);
 		} else {
 			throw new Error(err);
 		}
 
-		});
 	});
 }
 
 
 
-function addNewShort(seq) {
-	getColl('urls', function(collection) {
+function addNewShort(req, res, collection, seq, callback) {
 		var url = req.query.url;
 		collection.insert({"short": seq, "url": url}, function() {
-			sendToShortened(res, seq);
+			callback(res, seq);
 		});
-	});
 }
 function sendToShortened(res, link) {
 	res.send(genResponse(link));
