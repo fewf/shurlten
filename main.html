@@ -25,6 +25,13 @@
                 width: 100%;
                 overflow: hidden;
             }
+            #container {
+                position: absolute;
+                top: 50%;
+                margin-top: -1em;/* half of #content height*/
+                left: 0;
+                width: 100%;
+            }
             #formDiv {
                 text-align: center;
 
@@ -36,11 +43,13 @@
         </style>
     </head>
     <body>
-    <div id="formDiv">
-        <form id="shorten" method="get" action="/addurl/">
-            <input placeholder="Paste a URL to shorten it!" id="url" name="url" type="url" size="50" required pattern="https?://.+"/>
-            <input type="submit" id="btn" />
-        </form>
+    <div id="container">
+        <div id="formDiv">
+            <form id="shorten" method="get" action="/addurl/">
+                <input placeholder="Paste a URL to shorten it!" id="url" name="url" type="url" size="50" required pattern="https?://.+"/>
+                <input type="submit" id="btn" />
+            </form>
+        </div>
     </div>
     <br />
     <a href="https://github.com/greggreggreg7/url_shortener" target="_blank">github</a>
