@@ -16,7 +16,16 @@
 		<script type="text/javascript">
 		$('#btn').click(function() {
 			var input = $('#url');
-			if (!ValidURL(input.val())) {
+
+			try {
+				var bool = ValidURL(input.val());
+			}
+			catch (e) {
+				console.log(e);
+			}
+
+
+			if (!bool) {
 				input.css('border-color', 'red pink');
 				return false;
 			}
