@@ -30,7 +30,7 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 	});
 });
 
-app.get(/^\/addurl/, function(req, res) {
+app.get('/addurl/', function(req, res) {
 	mongo.Db.connect(mongoUri, function (err, db) {
 		db.collection('ref_seq', function(er, collection) {
 			collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }}, {}, function(err, object) {
