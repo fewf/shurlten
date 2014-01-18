@@ -70,20 +70,20 @@ app.get('/addurl/', function(req, res) {
             }
 
         });
-}
+	}
 
 
 
-function addNewShort(req, res, collection, seq, callback) {
-        var url = req.query.url;
-        collection.insert({"short": seq, "url": url}, function() {
-            callback(res, seq);
-        });
-}
-function sendToShortened(res, link) {
-    res.send(genResponse(link));
-}
-    
+	function addNewShort(req, res, collection, seq, callback) {
+	        var url = req.query.url;
+	        collection.insert({"short": seq, "url": url}, function() {
+	            callback(res, seq);
+	        });
+	}
+	function sendToShortened(res, link) {
+	    res.send(genResponse(link));
+	}
+
 });
 
 
