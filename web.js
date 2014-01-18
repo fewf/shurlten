@@ -42,14 +42,11 @@ app.get('/addurl/', function(req, res) {
 				db.collection('urls', function(er, collection) {
 
 					var url = req.query.url;
-					if (url.substr(0,4) !== "http") {
-						url = 'http://' + url;
-					}
 					var newLink = genID(object.seq);
 					collection.insert({"short": newLink, "url": url}, function() {
 
 						res.send(genResponse(newLink));
-						
+
 					});
 				});
 			});

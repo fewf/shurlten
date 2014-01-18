@@ -22,13 +22,18 @@ var i = document.createElement("input");
 i.setAttribute("type", "color");
 hasURLtype = i.type !== "text";
 
-if (!hasURLtype) {
-	form.addEventListener('submit', function(){
+
+form.addEventListener('submit', function(){
+	if (input.value.substr(0,4) !== "http") {
+		url = 'http://' + url;
+	}
+	if (!hasURLtype) {
 		if (!ValidURL(input.value);
 		input.css('border-color', 'red pink');
 		return false;
-	});
-}
+	}
+});
+
 
 form = document.getElementByTagName('form');
 submit = document.getElementById('btn');
