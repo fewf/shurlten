@@ -33,9 +33,11 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get('/addurl/', function(req, res) {
-	gbl_res = res;
+	someFunction(req, res);
+});
 
-	mongo.Db.connect(mongoUri, function (err, db) {
+function someFunction(req, res) {
+		mongo.Db.connect(mongoUri, function (err, db) {
 
 		db.collection('ref_seq', function(er, collection) {
 
@@ -50,7 +52,7 @@ app.get('/addurl/', function(req, res) {
 			});
 		});
 	});
-});
+}
 
 function sendToShortened() {
 	gbl_res.send(genResponse(gbl_link));
