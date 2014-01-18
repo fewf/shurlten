@@ -16,27 +16,26 @@ app.get('/', function(req, res) {
   res.sendfile('./main.html');
 });
 
-mongo.Db.connect(mongoUri, function (err, db) {
-	if (!err) {
-		global.db = db;
-	} else {
-		throw new Error(err);
-	}
-});
-
+if (!global.db) {
+	mongo.Db.connect(mongoUri, function (err, db) {
+		if (!err) {
+			global.db = db;
+		} else {
+			throw new Error(err);
+		}
+	});
+}
 
 app.get(/^\/([\d\w]+)$/, function(req, res) {
-	// mongo.Db.connect(mongoUri, function (err, db) {
-		db.collection('urls', function(er, collection) {
-			collection.find({"short": req.params[0]}).toArray(function( err, docs) {
-				if (docs.length) {
-					res.redirect(docs[0].url);
-				} else {
-					res.send('Sorry not found.');
-				}
-			});
+	db.collection('urls', function(er, collection) {
+		collection.find({"short": req.params[0]}).toArray(function( err, docs) {
+			if (docs.length) {
+				res.redirect(docs[0].url);
+			} else {
+				res.send('Sorry not found.');
+			}
 		});
-	// });
+	});
 });
 
 app.get('/addurl/', function(req, res) {
