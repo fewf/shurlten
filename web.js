@@ -68,7 +68,7 @@ function yetAnotherFn(req, res, db, collection) {
 
 function uhohOneMore(req, res, db, collection, object) {
 	db.collection('urls', function(err, collection) {
-		lastOnePromise(req, res, collection, object.seq)
+		lastOnePromise(req, res, collection, genID(object.seq));
 
 	});
 }
