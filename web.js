@@ -31,34 +31,34 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get('/addurl/', function(req, res) {
-	someFunction(req, res);
+	connectToDb(req, res, getSeqColl);
 });
 
-function someFunction(req, res) {
+function connectToDb(req, res, callback) {
 	mongo.Db.connect(mongoUri, function (err, db) {
 		if (!err) {
-			anotherFunction(req, res, db)
+			callback(req, res, db, getAndIncSeq)
 		} else {
 			throw new Error(err);
 		}
 	});
 }
 
-function anotherFunction(req, res, db) {	
+function getSeqColl(req, res, db, callback) {	
 	db.collection('ref_seq', function(err, collection) {
 		if (!err) {
-			yetAnotherFn(req, res, db, collection)
+			callback(req, res, db, collection, getURLsColl)
 		} else {
 			throw new Error(err);
 		}		
 
 	});
 }
-function yetAnotherFn(req, res, db, collection) {
+function getAndIncSeq(req, res, db, collection, callback) {
 		collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }},
 							 {}, function(err, object) {
 		if (!err) {
-			uhohOneMore(req, res, db, collection, object);
+			callback(req, res, db, collection, object, addNewShort);
 		} else {
 			throw new Error(err);
 		}
@@ -66,17 +66,16 @@ function yetAnotherFn(req, res, db, collection) {
 	});
 }
 
-function uhohOneMore(req, res, db, collection, object) {
+function getURLsColl(req, res, db, collection, object, callback) {
 	db.collection('urls', function(err, collection) {
-		lastOnePromise(req, res, collection, genID(object.seq));
-
+		callback(req, res, collection, genID(object.seq), sendToShortened);
 	});
 }
 
-function lastOnePromise(req, res, collection, seq) {
+function addNewShort(req, res, collection, seq, callback) {
 		var url = req.query.url;
 		collection.insert({"short": seq, "url": url}, function() {
-			sendToShortened(res, seq);
+			callback(res, seq);
 		});
 }
 function sendToShortened(res, link) {
