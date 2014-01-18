@@ -33,12 +33,10 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 app.get(/^\/addurl/, function(req, res) {
 	mongo.Db.connect(mongoUri, function (err, db) {
 		db.collection('ref_seq', function(er, collection) {
-			collection.findAndModify({
-										query: { _id: "seq"}, 
-										update: { $inc: { seq: 1 }}, 
-										fields: {"_id": 0}}).toArray(function(err, docs) {
+			collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }}, {}, function(err, object) {
+				console.log(object);
 				db.collection('urls', function(er, collection) {
-					collection.insert({"short": docs[0].seq, "url": req.query.url}, function() {
+					collection.insert({"short": object[0].seq, "url": req.query.url}, function() {
 						res.send('cha-ching!')
 					});
 				});
