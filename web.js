@@ -40,11 +40,10 @@ app.get('/addurl/', function(req, res) {
 									 {}, function(err, object) {
 
 				db.collection('urls', function(er, collection) {
-
+					var res = res;
 					var url = req.query.url;
 					var newLink = genID(object.seq);
-					collection.insert({"short": newLink, "url": url},
-									  sendToShortened);
+					collection.insert({"short": newLink, "url": url}, sendToShortened);
 				});
 			});
 		});
