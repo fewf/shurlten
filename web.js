@@ -5,6 +5,8 @@ var mongo = require('mongodb');
 
 var app = express();
 var gbl_res;
+var gbl_link;
+var gbl_req;
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://localhost:27017/';
@@ -42,8 +44,8 @@ app.get('/addurl/', function(req, res) {
 
 				db.collection('urls', function(er, collection) {
 					var url = req.query.url;
-					var newLink = genID(object.seq);
-					collection.insert({"short": newLink, "url": url}, sendToShortened);
+					gbl_link = genID(object.seq);
+					collection.insert({"short": gbl_link, "url": url}, sendToShortened);
 				});
 			});
 		});
@@ -51,7 +53,7 @@ app.get('/addurl/', function(req, res) {
 });
 
 function sendToShortened() {
-	gbl_res.send(genResponse(newLink));
+	gbl_res.send(genResponse(gbl_link));
 }
 
 var port = process.env.PORT || 5000;
