@@ -32,7 +32,7 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 
 app.get(/^\/addurl/, function(req, res) {
 	mongo.Db.connect(mongoUri, function (err, db) {
-		console.log(err);
+		console.log(req.params[0]);
 		db.collection('urls', function(er, collection) {
 			collection.insert({"short": "g5", "url": req.params[0]});
 		});
