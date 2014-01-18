@@ -4,9 +4,7 @@ var logfmt = require("logfmt");
 var mongo = require('mongodb');
 
 var app = express();
-var gbl_res;
-var gbl_link;
-var gbl_req;
+
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://localhost:27017/';
@@ -37,25 +35,52 @@ app.get('/addurl/', function(req, res) {
 });
 
 function someFunction(req, res) {
-		mongo.Db.connect(mongoUri, function (err, db) {
-
-		db.collection('ref_seq', function(er, collection) {
-
-			collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }},
-									 {}, function(err, object) {
-
-				db.collection('urls', function(er, collection) {
-					var url = req.query.url;
-					gbl_link = genID(object.seq);
-					collection.insert({"short": gbl_link, "url": url}, sendToShortened);
-				});
-			});
-		});
+	mongo.Db.connect(mongoUri, function (err, db) {
+		if (!err) {
+			anotherFunction(req, res, db)
+		} else {
+			throw new Error(err);
+		}
 	});
 }
 
-function sendToShortened() {
-	gbl_res.send(genResponse(gbl_link));
+function anotherFunction(req, res, db) {	
+	db.collection('ref_seq', function(err, collection) {
+		if (!err) {
+			yetAnotherFn(req, res, db, collection)
+		} else {
+			throw new Error(err);
+		}		
+
+	});
+}
+function yetAnotherFn(req, res, db, collection) {
+		collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }},
+							 {}, function(err, object) {
+		if (!err) {
+			uhohOneMore(req, res, db, collection, object);
+		} else {
+			throw new Error(err);
+		}
+
+	});
+}
+
+function uhohOneMore(req, res, db, collection, object) {
+	db.collection('urls', function(err, collection) {
+		lastOnePromise(req, res, object.seq)
+
+	});
+}
+
+function lastOnePromise(req, res, seq) {
+		var url = req.query.url;
+		collection.insert({"short": seq, "url": url}, function() {
+			sendToShortened(res, seq);
+		});
+}
+function sendToShortened(res, link) {
+	res.send(genResponse(link));
 }
 
 var port = process.env.PORT || 5000;
