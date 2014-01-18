@@ -4,7 +4,7 @@ var logfmt = require("logfmt");
 var mongo = require('mongodb');
 
 var app = express();
-
+var gbl_res;
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://localhost:27017/';
@@ -31,6 +31,7 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get('/addurl/', function(req, res) {
+	gbl_res = res;
 
 	mongo.Db.connect(mongoUri, function (err, db) {
 
