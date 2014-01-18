@@ -15,19 +15,18 @@
 		<script type="text/javascript">
 (function(window, document) {
 var hasURLtype, submit, input, form;
-// The $ is now locally scoped 
 
-// Listen for the jQuery ready event on the document
-
+// find out if browser supports url input type
 var i = document.createElement("input");
 i.setAttribute("type", "color");
 hasURLtype = i.type !== "text";
+
+
 form = document.getElementByTagName('form');
 submit = document.getElementById('btn');
 input = document.getElementById('url');
 
 
-// The rest of the code goes here!
 form.addEventListener('submit', function(){
 	if (!hasURLtype) {
 		if (!ValidURL(input.value);
