@@ -92,7 +92,8 @@ app.listen(port, function() {
 function genResponse(link) {
 	return 'here\'s your link: <a href="http://quiet-scrubland-5884.herokuapp' +
 			'.com/'  + link + '" target="_blank">quiet-scrubland' +
-			'-5884.herokuapp.com/'  + link + '';
+			'-5884.herokuapp.com/'  + link + '<br />' +
+			'<a href="https://github.com/greggreggreg7/url_shortener" target="_blank">github</a>';
 }
 
 function genID(decimal, symbols) {
