@@ -43,25 +43,18 @@ app.get('/addurl/', function(req, res) {
 
 
 
-    function getSeqColl(req, res, callback) {    
+    function getSeqColl(callback) {    
         global.db.collection('ref_seq', function(err, collection) {
             if (!err) {
-                callback(req, res, collection, getURLsColl)
+                callback(collection, getURLsColl);
             } else {
                 throw new Error(err);
-            }        
-
+            }
         });
     }
 
-    function getURLsColl(req, res, collection, object, callback) {
-        global.db.collection('urls', function(err, collection) {
-            callback(req, res, collection, genID(object.seq), sendToShortened);
-        });
-    }
-
-    function getAndIncSeq(req, res, collection, callback) {
-            collection.findAndModify({ _id: "seq"}, {}, { $inc: { seq: 1 }},
+    function getAndIncSeq(collection, callback) {
+            collection.findAndModify({ _id: "seq" }, {}, { $inc: { seq: 1 }},
                                  {}, function(err, object) {
             if (!err) {
                 callback(req, res, collection, object, addNewShort);
@@ -71,6 +64,12 @@ app.get('/addurl/', function(req, res) {
 
         });
 	}
+
+    function getURLsColl(object, callback) {
+        global.db.collection('urls', function(err, collection) {
+            callback(req, res, collection, genID(object.seq), sendToShortened);
+        });
+    }
 
 	function addNewShort(req, res, collection, seq, callback) {
 	        var url = req.query.url;
