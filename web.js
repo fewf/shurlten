@@ -39,7 +39,6 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get('/addurl/', function(req, res) {
-    console.log("hi");
 
     getSeqColl(getAndIncSeq);
 
@@ -48,6 +47,7 @@ app.get('/addurl/', function(req, res) {
     function getSeqColl(callback) {    
         global.db.collection('ref_seq', function(err, collection) {
             if (!err) {
+                console.log("didn't error in getSeqColl")
                 callback(collection, getURLsColl);
             } else {
                 throw new Error(err);
@@ -59,6 +59,7 @@ app.get('/addurl/', function(req, res) {
             collection.findAndModify({ _id: "seq" }, {}, { $inc: { seq: 1 }},
                                  {}, function(err, object) {
                 if (!err) {
+                    console.log("didn't error in getanincseq")
                     callback(req, res, collection, object, addNewShort);
                 } else {
                     throw new Error(err);
@@ -68,6 +69,7 @@ app.get('/addurl/', function(req, res) {
 
     function getURLsColl(object, callback) {
         global.db.collection('urls', function(err, collection) {
+            console.log("appears to have gotten urls collection ok")
             callback(req, res, collection, genID(object.seq), sendToShortened);
         });
     }
@@ -75,6 +77,7 @@ app.get('/addurl/', function(req, res) {
 	function addNewShort(req, res, collection, seq, callback) {
 	        var url = req.query.url;
 	        collection.insert({"short": seq, "url": url}, function() {
+                console.log("succeeded in adding new short")
 	            callback(seq);
 	        });
 	}
