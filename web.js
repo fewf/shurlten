@@ -39,7 +39,7 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get('/addurl/', function(req, res) {
-    getSeqColl(req, res, getAndIncSeq);
+    getSeqColl(getAndIncSeq);
 
 
 
