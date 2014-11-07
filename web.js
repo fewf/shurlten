@@ -76,10 +76,12 @@ app.get('/addurl/', function(req, res) {
 
 	function addNewShort(req, res, collection, seq, callback) {
 	        var url = req.query.url;
-	        collection.insert({"short": seq, "url": url}, function() {
+	        var writeObj = collection.insert({"short": seq, "url": url})
+
+            if (writeObj.nInserted === 1) {
                 console.log("succeeded in adding new short")
-	            callback(seq);
-	        });
+                callback(seq);
+            }
 	}
 
 	function sendToShortened(link) {
