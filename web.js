@@ -39,6 +39,8 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
 });
 
 app.get('/addurl/', function(req, res) {
+    console.log("hi");
+
     getSeqColl(getAndIncSeq);
 
 
@@ -56,12 +58,11 @@ app.get('/addurl/', function(req, res) {
     function getAndIncSeq(collection, callback) {
             collection.findAndModify({ _id: "seq" }, {}, { $inc: { seq: 1 }},
                                  {}, function(err, object) {
-            if (!err) {
-                callback(req, res, collection, object, addNewShort);
-            } else {
-                throw new Error(err);
-            }
-
+                if (!err) {
+                    callback(req, res, collection, object, addNewShort);
+                } else {
+                    throw new Error(err);
+                }
         });
 	}
 
@@ -90,11 +91,11 @@ app.listen(port, function() {
   console.log("Listening on " + port);
 });    
 
-function genResponse(link) {
+function genResponse(link) {   
     return 'here\'s your link: <a href="http://quiet-scrubland-5884.herokuapp' +
             '.com/'  + link + '" target="_blank">quiet-scrubland' +
             '-5884.herokuapp.com/'  + link + '<br />' +
-            '<a href="https://github.com/greggreggreg7/url_shortener" target="_blank">github</a>';
+            '<a href="https://github.com/fewf/url_shortener" target="_blank">github</a>';
 }
 
 function genID(decimal, symbols) {

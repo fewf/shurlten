@@ -11,7 +11,7 @@
     "shortener",
     "bitly"
   ],
-  "author": "greggreggreg7",
+  "author": "fewf",
   "license": "BSD-2-Clause",
   "dependencies": {
     "logfmt": "~0.18.1",
