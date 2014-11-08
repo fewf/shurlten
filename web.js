@@ -129,7 +129,7 @@ function genID(decimal, symbols) {
         i++;
 
     }
-
+    console.log("got out of first while")
     while ( i >= 0 ) {
 
         var leftMost = symbols[Math.floor(decimal / pow(i))];
