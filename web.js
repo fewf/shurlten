@@ -105,6 +105,7 @@ function genResponse(link) {
 }
 
 function genID(decimal, symbols) {
+    console.log("start genID");
     if (typeof symbols === 'undefined' || !symbols.length) {
         var symbols = ['0','1','2','3','4','5','6','7','8',
                    '9','b','c','d','f','g','h',
@@ -136,6 +137,6 @@ function genID(decimal, symbols) {
         decimal = decimal - pow(i) * Math.floor(decimal / pow(i));
         i--;
     }
-
+    console.log("end genid");
     return numstr;
 }
