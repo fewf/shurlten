@@ -63,7 +63,7 @@ app.get('/addurl/', function(req, res) {
                     console.log("didn't error in getanincseq")
                     console.log(JSON.stringify(object));
                     // getURLsColl
-                    callback(req, res, collection, object, addNewShort);
+                    callback(object, addNewShort);
                 } else {
                     throw new Error(err);
                 }
