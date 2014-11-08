@@ -48,6 +48,7 @@ app.get('/addurl/', function(req, res) {
         global.db.collection('ref_seq', function(err, collection) {
             if (!err) {
                 console.log("didn't error in getSeqColl")
+                // getAndIncSeq
                 callback(collection, getURLsColl);
             } else {
                 throw new Error(err);
@@ -60,6 +61,8 @@ app.get('/addurl/', function(req, res) {
                                  {}, function(err, object) {
                 if (!err) {
                     console.log("didn't error in getanincseq")
+                    console.log(JSON.stringify(object));
+                    // getURLsColl
                     callback(req, res, collection, object, addNewShort);
                 } else {
                     throw new Error(err);
