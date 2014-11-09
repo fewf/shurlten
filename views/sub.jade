@@ -3,15 +3,15 @@ html
   head
     meta(charset='UTF-8')
     title url shortener
-    link(rel='stylesheet', href='styles.css')
+    link(rel='stylesheet', href='../styles.css')
   body
     #container
       #content
-        if site === 'not found'
+        if !site
           p I'm sorry, I can't find that address.
         else
           p
             | Here's your link:
             a(href=site, target='_blank')
               | #{site}
-    script(type='text/javascript', src='client_url_validation.js')
+    script(type='text/javascript', src='../client_url_validation.js')
