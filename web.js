@@ -14,7 +14,7 @@ app.use(express.urlencoded());
 
 // Optional since express defaults to CWD/views
 
-app.set('views', __dirname);
+// app.set('views', '');
 
 // Set our default template engine to "jade"
 // which prevents the need for extensions
