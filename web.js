@@ -11,7 +11,7 @@ var mongoUri = process.env.MONGOLAB_URI ||
 
 app.use(logfmt.requestLogger());
 app.use(express.urlencoded());
-app.use(express.static(__dirname + 'public'));
+app.use(express.static(__dirname + '/public'));
 
 // Optional since express defaults to CWD/views
 
