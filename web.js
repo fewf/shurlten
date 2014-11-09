@@ -8,12 +8,23 @@ var app = express();
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://localhost:27017/';
-  // console.log(mongoUri);
 
 app.use(logfmt.requestLogger());
 app.use(express.urlencoded());
+
+// Optional since express defaults to CWD/views
+
+app.set('views', __dirname);
+
+// Set our default template engine to "jade"
+// which prevents the need for extensions
+// (although you can still mix and match)
+app.set('view engine', 'jade');
+
+
 app.get('/', function(req, res) {
-  res.sendfile('./main.html');
+    res.render('main');
+  // res.sendfile('./main.html');
 });
 
 if (!global.db) {
@@ -32,7 +43,9 @@ app.get(/^\/([\d\w]+)$/, function(req, res) {
             if (docs.length) {
                 res.redirect(docs[0].url);
             } else {
-                res.send('Sorry not found.');
+                
+                res.render('sub', { site: false });
+                // res.send('Sorry not found.');
             }
         });
     });
@@ -85,7 +98,8 @@ app.get('/addurl/', function(req, res) {
 	}
 
 	function sendToShortened(link) {
-	    res.send(genResponse(link));
+        res.render('sub', { site: 'http://shurlten.herokuapp.com/' + link });
+	    // res.send(genResponse(link));
 	}
 
 });
@@ -96,12 +110,12 @@ app.listen(port, function() {
   console.log("Listening on " + port);
 });    
 
-function genResponse(link) {   
-    return 'here\'s your link: <a href="http://quiet-scrubland-5884.herokuapp' +
-            '.com/'  + link + '" target="_blank">quiet-scrubland' +
-            '-5884.herokuapp.com/'  + link + '<br />' +
-            '<a href="https://github.com/fewf/url_shortener" target="_blank">github</a>';
-}
+// function genResponse(link) {   
+//     return 'here\'s your link: <a href="http://shurlten.herokuapp' +
+//             '.com/'  + link + '" target="_blank">shurlten' +
+//             '.herokuapp.com/'  + link + '<br />' +
+//             '<a href="https://github.com/fewf/url_shortener" target="_blank">github</a>';
+// }
 
 function genID(decimal, symbols) {
     console.log("start genID: " + decimal);

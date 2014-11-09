@@ -3,49 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>url shortener</title>
-        <style type="text/css">
-            html {
-                height: 100%;
-            }
-            body {
-                /*position: relative;*/
-                margin: 0;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-                background: rgb(66,206,141); /* Old browsers */
-                background: -moz-linear-gradient(top,  rgba(66,206,141,1) 46%, rgba(90,137,232,1) 60%); /* FF3.6+ */
-                background: -webkit-gradient(linear, left top, left bottom, color-stop(46%,rgba(66,206,141,1)), color-stop(60%,rgba(90,137,232,1))); /* Chrome,Safari4+ */
-                background: -webkit-linear-gradient(top,  rgba(66,206,141,1) 46%,rgba(90,137,232,1) 60%); /* Chrome10+,Safari5.1+ */
-                background: -o-linear-gradient(top,  rgba(66,206,141,1) 46%,rgba(90,137,232,1) 60%); /* Opera 11.10+ */
-                background: -ms-linear-gradient(top,  rgba(66,206,141,1) 46%,rgba(90,137,232,1) 60%); /* IE10+ */
-                background: linear-gradient(to bottom,  rgba(66,206,141,1) 46%,rgba(90,137,232,1) 60%); /* W3C */
-                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#42ce8d', endColorstr='#5a89e8',GradientType=0 ); /* IE6-9 */
-
-                height: 100%;
-                width: 100%;
-                overflow: hidden;
-            }
-            #container {
-                position: absolute;
-                top: 50%;
-                margin-top: -1em;/* half of #content height*/
-                left: 0;
-                width: 100%;
-            }
-            #formDiv {
-                text-align: center;
-
-            }
-            #url, #btn {
-                height: 2em;
-            }
-            #formDiv a {
-                text-decoration: none;
-                font-weight: bold;
-                color: #444444;
-            }
-
-        </style>
+        <link rel="stylesheet" href=""
     </head>
     <body>
     <div id="container">
@@ -53,8 +11,6 @@
             <form id="shorten" method="get" action="/addurl/">
                 <input placeholder="Paste a URL to shorten it!" id="url" name="url" type="url" size="50" required pattern="https?://.+"/>
                 <input type="submit" id="btn" value="Shorten!" />
-                <br />
-                <br />
                 <a href="https://github.com/greggreggreg7/url_shortener" target="_blank">github</a>
             </form>
         </div>
